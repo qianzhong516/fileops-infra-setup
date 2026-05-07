@@ -79,6 +79,20 @@ resource "aws_iam_role_policy" "permission_policy" {
     Version = "2012-10-17"
     Statement = [
       {
+        Sid    = "EcrReadForPushAndManifestChecks",
+        Effect = "Allow",
+        Action = [
+          "ecr:BatchGetImage",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:DescribeImages",
+          "ecr:ListImages"
+        ],
+        Resource = [
+          "arn:aws:ecr:ap-southeast-2:${local.account_id}:repository/fileops-frontend",
+          "arn:aws:ecr:ap-southeast-2:${local.account_id}:repository/fileops-backend"
+        ]
+      },
+      {
         Action = [
           "ecr:BatchCheckLayerAvailability",
           "ecr:InitiateLayerUpload",
