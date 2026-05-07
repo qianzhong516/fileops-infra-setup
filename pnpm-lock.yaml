@@ -1,0 +1,39 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    devDependencies:
+      prettier:
+        specifier: ^3.5.3
+        version: 3.8.3
+      prettier-plugin-terraform-formatter:
+        specifier: ^1.2.1
+        version: 1.2.1(prettier@3.8.3)
+
+packages:
+
+  prettier-plugin-terraform-formatter@1.2.1:
+    resolution: {integrity: sha512-rdzV61Bs/Ecnn7uAS/vL5usTX8xUWM+nQejNLZxt3I1kJH5WSeLEmq7LYu1wCoEQF+y7Uv1xGvPRfl3lIe6+tA==}
+    peerDependencies:
+      prettier: '>= 1.16.0'
+    peerDependenciesMeta:
+      prettier:
+        optional: true
+
+  prettier@3.8.3:
+    resolution: {integrity: sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==}
+    engines: {node: '>=14'}
+    hasBin: true
+
+snapshots:
+
+  prettier-plugin-terraform-formatter@1.2.1(prettier@3.8.3):
+    optionalDependencies:
+      prettier: 3.8.3
+
+  prettier@3.8.3: {}
