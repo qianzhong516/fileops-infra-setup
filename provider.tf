@@ -6,6 +6,14 @@ terraform {
       source  = "hashicorp/aws"
       version = "6.44.0"
     }
+    tfe = {
+      source  = "hashicorp/tfe"
+      version = "~> 0.76"
+    }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4.2"
+    }
   }
 
   backend "s3" {
@@ -19,4 +27,9 @@ terraform {
 
 provider "aws" {
   region = "ap-southeast-2"
+}
+
+provider "tfe" {
+  hostname = "app.terraform.io"
+  token    = var.tfe_token
 }
