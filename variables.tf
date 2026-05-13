@@ -6,8 +6,12 @@ variable "tfc_project_name" {
   default = "FileOps"
 }
 
-variable "tfc_workspace_name" {
+variable "eks_tfc_workspace_name" {
   default = "janice-zhong-fileops"
+}
+
+variable "workload_tfc_workspace_name" {
+  default = "janice-zhong-fileops-workload-configs"
 }
 
 variable "tfe_token" {

@@ -38,7 +38,10 @@ data "aws_iam_policy_document" "oidc_assume_role_policy" {
     condition {
       test     = "StringLike"
       variable = "app.terraform.io:sub"
-      values   = ["organization:${var.tfc_org_name}:project:${var.tfc_project_name}:workspace:${var.tfc_workspace_name}:run_phase:*"]
+      values = [
+        "organization:${var.tfc_org_name}:project:${var.tfc_project_name}:workspace:${var.eks_tfc_workspace_name}:run_phase:*",
+        "organization:${var.tfc_org_name}:project:${var.tfc_project_name}:workspace:${var.workload_tfc_workspace_name}:run_phase:*",
+      ]
     }
   }
 }
@@ -58,23 +61,44 @@ resource "aws_iam_role_policy_attachment" "admin_access" {
   role       = aws_iam_role.tf_oidc_role.name
 }
 
-// Set HCP Terraform env vars in the workspace: TFC_AWS_PROVIDER_AUTH and TFC_AWS_RUN_ROLE_ARN
-data "tfe_workspace" "this" {
-  name         = var.tfc_workspace_name
+// Set HCP Terraform env vars for the `eks` workspace: TFC_AWS_PROVIDER_AUTH and TFC_AWS_RUN_ROLE_ARN
+data "tfe_workspace" "eks" {
+  name         = var.eks_tfc_workspace_name
   organization = var.tfc_org_name
 }
 
-resource "tfe_variable" "tfc_aws_provider_auth" {
+resource "tfe_variable" "tfc_aws_provider_auth_eks" {
   key          = "TFC_AWS_PROVIDER_AUTH"
   value        = "true"
   category     = "env"
-  workspace_id = data.tfe_workspace.this.id
+  workspace_id = data.tfe_workspace.eks.id
 }
 
-resource "tfe_variable" "tfc_role_arn" {
+resource "tfe_variable" "tfc_role_arn_eks" {
   sensitive    = true
   key          = "TFC_AWS_RUN_ROLE_ARN"
   value        = aws_iam_role.tf_oidc_role.arn
   category     = "env"
-  workspace_id = data.tfe_workspace.this.id
+  workspace_id = data.tfe_workspace.eks.id
+}
+
+// Set HCP Terraform env vars for the `workload` workspace
+data "tfe_workspace" "workload" {
+  name         = var.workload_tfc_workspace_name
+  organization = var.tfc_org_name
+}
+
+resource "tfe_variable" "tfc_aws_provider_auth_workload" {
+  key          = "TFC_AWS_PROVIDER_AUTH"
+  value        = "true"
+  category     = "env"
+  workspace_id = data.tfe_workspace.workload.id
+}
+
+resource "tfe_variable" "tfc_role_arn_workload" {
+  sensitive    = true
+  key          = "TFC_AWS_RUN_ROLE_ARN"
+  value        = aws_iam_role.tf_oidc_role.arn
+  category     = "env"
+  workspace_id = data.tfe_workspace.workload.id
 }
