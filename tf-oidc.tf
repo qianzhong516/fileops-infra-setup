@@ -38,6 +38,7 @@ data "aws_iam_policy_document" "oidc_assume_role_policy" {
     condition {
       test     = "StringLike"
       variable = "app.terraform.io:sub"
+      // TODO: better separate the tf roles for creating cluster and running workloads in the cluster
       values = [
         "organization:${var.tfc_org_name}:project:${var.tfc_project_name}:workspace:${var.eks_tfc_workspace_name}:run_phase:*",
         "organization:${var.tfc_org_name}:project:${var.tfc_project_name}:workspace:${var.workload_tfc_workspace_name}:run_phase:*",
