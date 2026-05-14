@@ -68,6 +68,7 @@ data "tfe_workspace" "eks" {
   organization = var.tfc_org_name
 }
 
+// Workspace variables for the `eks` workspace
 resource "tfe_variable" "tfc_aws_provider_auth_eks" {
   key          = "TFC_AWS_PROVIDER_AUTH"
   value        = "true"
@@ -89,6 +90,7 @@ data "tfe_workspace" "workload" {
   organization = var.tfc_org_name
 }
 
+// Workspace variables for the `workload` workspace
 resource "tfe_variable" "tfc_aws_provider_auth_workload" {
   key          = "TFC_AWS_PROVIDER_AUTH"
   value        = "true"
@@ -101,5 +103,13 @@ resource "tfe_variable" "tfc_role_arn_workload" {
   key          = "TFC_AWS_RUN_ROLE_ARN"
   value        = aws_iam_role.tf_oidc_role.arn
   category     = "env"
+  workspace_id = data.tfe_workspace.workload.id
+}
+
+resource "tfe_variable" "tfc_git_ssh_private_key" {
+  sensitive    = true
+  key          = "git_ssh_private_key"
+  value        = var.git_ssh_private_key
+  category     = "terraform"
   workspace_id = data.tfe_workspace.workload.id
 }
