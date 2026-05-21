@@ -7,6 +7,7 @@ This repo contains the one-time-run setup code and it completes the following ta
 - Add GitHub OIDC provider to IAM
 - Add a role assumed by OIDC identity to perform AWS actions
 - Set up HCP Terraform OIDC to perform AWS actions
+- Set up a KMS key for SOPS
 
 ## Setup Instructions
 

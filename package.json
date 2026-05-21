@@ -1,9 +1,0 @@
-{
-  "name": "fileops-setup",
-  "private": true,
-  "packageManager": "pnpm@10.33.3",
-  "devDependencies": {
-    "prettier": "^3.5.3",
-    "prettier-plugin-terraform-formatter": "^1.2.1"
-  }
-}
