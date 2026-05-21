@@ -23,6 +23,21 @@ resource "aws_kms_key" "sops_key" {
         Action   = "kms:*"
         Resource = "*"
       },
+      {
+        Sid    = "AllowArgoCDRepoServerDecrypt"
+        Effect = "Allow"
+        Principal = {
+          AWS = [
+            # TODO: You shouldn't hardcode this
+            "arn:aws:iam::665303624691:role/argocd-repo-server-iam-role"
+          ]
+        }
+        Action = [
+          "kms:Decrypt",
+          "kms:DescribeKey"
+        ]
+        Resource = "*"
+      }
       # {
       #   Sid    = "Allow administration of the key"
       #   Effect = "Allow"
