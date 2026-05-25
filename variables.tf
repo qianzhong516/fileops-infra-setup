@@ -6,12 +6,13 @@ variable "tfc_project_name" {
   default = "FileOps"
 }
 
-variable "eks_tfc_workspace_name" {
-  default = "janice-zhong-fileops"
-}
-
-variable "workload_tfc_workspace_name" {
-  default = "janice-zhong-fileops-workload-configs"
+variable "tfc_workspace" {
+  default = {
+    cluster         = "janice-zhong-fileops-cluster"
+    platform_addons = "janice-zhong-fileops-platform-addons"
+    workloads       = "janice-zhong-fileops-workloads"
+    data            = "janice-zhong-fileops-data"
+  }
 }
 
 variable "tfe_token" {
@@ -29,6 +30,10 @@ locals {
   github_repo   = "fileops"
   github_branch = "main"
   account_id    = data.aws_caller_identity.current.account_id
+  condition_values = [
+    for _, workspace_name in var.tfc_workspace :
+    "organization:${var.tfc_org_name}:project:${var.tfc_project_name}:workspace:${workspace_name}:run_phase:*"
+  ]
   tags = {
     Name = "FileOps"
   }
