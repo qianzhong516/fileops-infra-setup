@@ -91,5 +91,13 @@ resource "tfe_variable" "tfc_git_ssh_private_key" {
   key          = "git_ssh_private_key"
   value        = var.git_ssh_private_key
   category     = "terraform"
-  workspace_id = data.tfe_workspace.workspace_data["platform_addons"].id
+  workspace_id = data.tfe_workspace.workspace_data["workloads"].id
+}
+
+// set up remote state sharing
+resource "tfe_workspace_settings" "cluster-settings" {
+  workspace_id              = data.tfe_workspace.workspace_data["cluster"].id
+  global_remote_state       = false
+  project_remote_state      = false
+  remote_state_consumer_ids = toset([data.tfe_workspace.workspace_data["data"].id, data.tfe_workspace.workspace_data["platform_addons"].id, data.tfe_workspace.workspace_data["workloads"].id])
 }
