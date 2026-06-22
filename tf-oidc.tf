@@ -86,14 +86,6 @@ resource "tfe_variable" "tfc_role_arn_eks" {
   workspace_id = each.value.id
 }
 
-resource "tfe_variable" "tfc_git_ssh_private_key" {
-  sensitive    = true
-  key          = "git_ssh_private_key"
-  value        = var.git_ssh_private_key
-  category     = "terraform"
-  workspace_id = data.tfe_workspace.workspace_data["workloads"].id
-}
-
 // set up remote state sharing
 resource "tfe_workspace_settings" "cluster-settings" {
   workspace_id              = data.tfe_workspace.workspace_data["cluster"].id

@@ -20,11 +20,6 @@ variable "tfe_token" {
   sensitive = true
 }
 
-variable "git_ssh_private_key" {
-  type      = string
-  sensitive = true
-}
-
 locals {
   github_org    = "qianzhong516"
   github_repo   = "fileops"
